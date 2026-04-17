@@ -27,7 +27,7 @@ public class ProdutoController {
         return produtoRepository.findByNome(nome);
     }
 
-    @GetMapping
+    @GetMapping("/produtos")
     public List<Produto> buscarTodosProdutos() {
         return produtoRepository.findAll();
     }
