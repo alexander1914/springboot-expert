@@ -26,14 +26,20 @@ public class Livro {
     @Column(name = "data_publicaco")
     private LocalDate dataPublicacao;
 
-    @Enumerated(EnumType.STRING) /// to map an Enum
+    @Enumerated(EnumType.STRING)
+    /// to map an Enum
     @Column(name = "genero", length = 150, nullable = false)
     private GeneroLivro genero;
 
-    @Column(name = "preco", precision = 18, scale = 2)/// a scale 2 with 18 precision
+    @Column(name = "preco", precision = 18, scale = 2)
+    /// a scale 2 with 18 precision
     private BigDecimal preco;
 
-    @ManyToOne
+    /// to applied cascade your database
+    @ManyToOne(
+            // cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER ///Lazy: To define just data autor // EAGER: opposite all information both
+    )
     @JoinColumn(name = "id_autor")
     private Autor autor;
 }
