@@ -42,4 +42,33 @@
     CONSTRAINT chk_genero check (genero in ('FICCAO', 'FANTASIA', 'MISTERIO', 'ROMANCE', 'BIOGRAFIA', 'CIENCIA'))
     );
 ```
-    
+
+### JPA
+
+**CASCADE**: Entity relationships often depend on the existence of another entity, 
+for example the Person–Address relationship. Without the Person, the Address entity doesn’t have any meaning of its own.
+When we delete the Person entity, our Address entity should also get deleted.
+All JPA-specific cascade operations are represented by the jakarta.persistence.CascadeType enum containing entries:
+
+    ALL
+    PERSIST
+    MERGE
+    REMOVE
+    REFRESH
+    DETACH
+
+**@Transient**: is annotation when saving to a database. However, 
+the @Transient annotation does not affect Java object serialization.
+
+**@Transactional**: Let’s focus on a straightforward operation sequence such as retrieving a draft article, 
+updating it, and saving the changes — all performed within a single database transaction.
+
+**@ManyToOne**: is annotation lets us create bidirectional relationships too. 
+We’ll cover this in detail in the next few subsections.
+
+**Query Method**: is Spring Data JPA supports find, read, query, count and get. 
+So, we could have done queryByName, and Spring Data would behave the same.
+
+``` java
+    List<Livro> findByAutor(Autor autor);
+```

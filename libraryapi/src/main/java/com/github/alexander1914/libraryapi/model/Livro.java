@@ -2,6 +2,7 @@ package com.github.alexander1914.libraryapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "livro")
 @Data
+@ToString(exclude = "autor")
 public class Livro {
 
     @Id
@@ -35,11 +37,7 @@ public class Livro {
     /// a scale 2 with 18 precision
     private BigDecimal preco;
 
-    /// to applied cascade your database
-    @ManyToOne(
-            // cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER ///Lazy: To define just data autor // EAGER: opposite all information both
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_autor")
     private Autor autor;
 }
