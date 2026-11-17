@@ -72,3 +72,22 @@ So, we could have done queryByName, and Spring Data would behave the same.
 ``` java
     List<Livro> findByAutor(Autor autor);
 ```
+https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+
+**JQPL:** is used to define searches against persistent entities independent of the mechanism 
+used to store those entities. 
+As such, JPQL is "portable", and not constrained to any particular data store
+
+**@Query:** annotation rather than annotating them to the domain class. 
+This frees the domain class from persistence specific information and co-locates the query to the repository interface.
+
+``` java
+@Query("""
+select l.genero
+from Livro l
+join l.autor a
+where a.nacionalidade = 'Brasileira'
+order by l.genero
+""")
+List<String> listarGenerosAutoresBrasileiros();
+```

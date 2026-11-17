@@ -3,11 +3,17 @@ package com.github.alexander1914.libraryapi.repository;
 import com.github.alexander1914.libraryapi.model.Autor;
 import com.github.alexander1914.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * @see LivroRepositoryTest
+ */
 
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, UUID> {
@@ -28,4 +34,38 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     // select * from livro where titulo = titulo or preco = preco
     List<Livro> findByTituloOrIsbn(String titulo, String isbn);
+
+    // select * from livro where data_publicacao between ? and ?
+    List<Livro> findByDataPublicacaoBetween(LocalDate inicio, LocalDate fim);
+
+    // select * from livro where titulo like 'Abel'
+    List<Livro> findByTituloLike(String titulo);
+
+    // select * from livro where titulo = ? order by isbn desc
+    List<Livro> findByTituloOrderByIsbnDesc(String titulo);
+
+    // select l.* from livro as l order by l.titulo, l.preco
+    @Query(" select l from Livro as l order by l.titulo, l.preco")
+    List<Livro> listarTodosOrdenadosPorTituloAndPreco();
+
+    /**
+     * select a.*
+     * from livro l
+     * join autor a on a.id = l.id_autor
+     */
+    @Query(" select a from Livro l join l.autor a ")
+    List<Autor> listarAutoresDosLivros();
+
+    // select distinct l.* from livro l
+    @Query(" select distinct l.titulo from Livro l ")
+    List<String> listarNomesDiferentesLivros();
+
+    @Query("""
+                select l.genero
+                    from Livro l
+                        join l.autor a 
+                            where a.nacionalidade = 'Brasileira'
+                                        order by l.genero
+            """)
+    List<String> listarGenerosAutoresBrasileiros();
 }
