@@ -23,13 +23,13 @@ class LivroRepositoryTest {
     AutorRepository autorRepository;
 
     @Test
-    void salvarLivroTest(){
+    void salvarLivroTest() {
         Livro livro = new Livro();
         livro.setIsbn("90887-84874");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FICCAO);
         livro.setTitulo("UFO");
-        livro.setDataPublicacao(LocalDate.of(1980,1,2));
+        livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
 
         Autor autor = autorRepository
                 .findById(UUID.fromString("17df7d69-6ef6-452e-b7ee-e26bcf73b568"))
@@ -40,18 +40,18 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void salvarCascadeLivroTest(){
+    void salvarCascadeLivroTest() {
         Livro livro = new Livro();
         livro.setIsbn("90887-84874");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setTitulo("Outro Livro");
-        livro.setDataPublicacao(LocalDate.of(1980,1,2));
+        livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
 
         Autor autor = new Autor();
         autor.setNome("Nathalia");
         autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1997, 12,22));
+        autor.setDataNascimento(LocalDate.of(1997, 12, 22));
 
         /// Implemented a way cascade
         livro.setAutor(autor);
@@ -60,7 +60,7 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void atualizarAutorDoLivro(){
+    void atualizarAutorDoLivro() {
         UUID id = UUID.fromString("d18277bc-d6b1-4cdb-a988-d28bfd662de0");
         var livroParaAtualizar = livroRepository.findById(id).orElse(null);
 
@@ -73,20 +73,20 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void deletarLivroPorId(){
+    void deletarLivroPorId() {
         UUID id = UUID.fromString("d18277bc-d6b1-4cdb-a988-d28bfd662de0");
         livroRepository.deleteById(id);
     }
 
     @Test
-    void deletarLivroPorCascade(){
+    void deletarLivroPorCascade() {
         UUID id = UUID.fromString("d18277bc-d6b1-4cdb-a988-d28bfd662de0");
         livroRepository.deleteById(id);
     }
 
     @Test
     @Transactional
-    void buscarLivroTest(){
+    void buscarLivroTest() {
         UUID id = UUID.fromString("d18277bc-d6b1-4cdb-a988-d28bfd662de0");
         Livro livro = livroRepository.findById(id).orElse(null);
         System.out.println("Livro: ");
@@ -97,19 +97,19 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void buscarPorTituloTest(){
+    void buscarPorTituloTest() {
         List<Livro> listaTitulos = livroRepository.findByTitulo("Abel Ferreira");
         listaTitulos.forEach(System.out::println);
     }
 
     @Test
-    void buscarPorISBNTest(){
+    void buscarPorISBNTest() {
         List<Livro> listaIsbns = livroRepository.findByIsbn("90887-84874");
         listaIsbns.forEach(System.out::println);
     }
 
     @Test
-    void buscarPorTituloAndPrecoTest(){
+    void buscarPorTituloAndPrecoTest() {
         BigDecimal preco = BigDecimal.valueOf(305.00);
         String titulo = "Abel Ferreira";
         List<Livro> listaTituloAndPreco = livroRepository.findByTituloAndPreco(titulo, preco);
@@ -117,7 +117,7 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void buscarPorTituloOuPrecoTest(){
+    void buscarPorTituloOuPrecoTest() {
         String titulo = "Abel Ferreira";
         String isbn = "90887-84874";
         List<Livro> listaTituloOrIsbn = livroRepository.findByTituloOrIsbn(titulo, isbn);
@@ -125,26 +125,39 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void buscarLivrosComQueryJPQL(){
+    void buscarLivrosComQueryJPQL() {
         var resultado = livroRepository.listarTodosOrdenadosPorTituloAndPreco();
         resultado.forEach(System.out::println);
     }
 
     @Test
-    void buscarAutoresDosLivros(){
+    void buscarAutoresDosLivros() {
         List<Autor> resultado = livroRepository.listarAutoresDosLivros();
         resultado.forEach(System.out::println);
     }
 
     @Test
-    void buscarTitulosNaoRepetidosDosLivros(){
+    void buscarTitulosNaoRepetidosDosLivros() {
         List<String> resultado = livroRepository.listarNomesDiferentesLivros();
         resultado.forEach(System.out::println);
     }
 
     @Test
-    void buscarGenerosDeLivrosAutoresBrasileiros(){
+    void buscarGenerosDeLivrosAutoresBrasileiros() {
         List<String> resultado = livroRepository.listarGenerosAutoresBrasileiros();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void buscarPorGeneroQueryParamTest() {
+        List<Livro> resultado = livroRepository.findByGenero(GeneroLivro.BIOGRAFIA, "dataPublicacao");
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void buscarPorGeneroQueryPosicionalParamTest() {
+        List<Livro> resultado = livroRepository
+                .findByGeneroParametroPosicianal(GeneroLivro.BIOGRAFIA, "dataPublicacao");
         resultado.forEach(System.out::println);
     }
 

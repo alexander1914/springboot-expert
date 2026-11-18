@@ -1,9 +1,11 @@
 package com.github.alexander1914.libraryapi.repository;
 
 import com.github.alexander1914.libraryapi.model.Autor;
+import com.github.alexander1914.libraryapi.model.GeneroLivro;
 import com.github.alexander1914.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -45,7 +47,7 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     List<Livro> findByTituloOrderByIsbnDesc(String titulo);
 
     // select l.* from livro as l order by l.titulo, l.preco
-    @Query(" select l from Livro as l order by l.titulo, l.preco")
+    @Query("select l from Livro as l order by l.titulo, l.preco")
     List<Livro> listarTodosOrdenadosPorTituloAndPreco();
 
     /**
@@ -53,11 +55,11 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
      * from livro l
      * join autor a on a.id = l.id_autor
      */
-    @Query(" select a from Livro l join l.autor a ")
+    @Query("select a from Livro l join l.autor a")
     List<Autor> listarAutoresDosLivros();
 
     // select distinct l.* from livro l
-    @Query(" select distinct l.titulo from Livro l ")
+    @Query("select distinct l.titulo from Livro l")
     List<String> listarNomesDiferentesLivros();
 
     @Query("""
@@ -68,4 +70,18 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
                                         order by l.genero
             """)
     List<String> listarGenerosAutoresBrasileiros();
+
+    /// named parameters
+    @Query("select l from Livro l where l.genero = :genero order by :paramOrderby")
+    List<Livro> findByGenero(
+            @Param("genero") GeneroLivro generoLivro,
+            @Param("paramOrderby") String orderBy
+    );
+
+    /// positional parameters
+    @Query("select l from Livro l where l.genero = ?1 order by ?2")
+    List<Livro> findByGeneroParametroPosicianal(
+            @Param("genero") GeneroLivro generoLivro,
+            @Param("paramOrderby") String orderBy
+    );
 }
