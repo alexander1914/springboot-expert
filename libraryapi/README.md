@@ -116,3 +116,19 @@ List<Livro> findByGeneroParametroPosicianal(
         @Param("paramOrderby") String orderBy
 );
 ```
+**@Modifying:** is annotation used for database queries that alter data or schema.
+
+**@Transactional**  is an annotation that defines a transaction boundary around a method or class.
+```java
+/// delete with @Query
+@Modifying
+@Transactional
+@Query("delete from Livro where genero = ?1")
+void deletePorGenero(GeneroLivro generoLivro);
+
+/// update with @Query
+@Modifying
+@Transactional
+@Query("update Livro set dataPublicacao = ?1")
+void updateDataPublicao(LocalDate novaData);
+```
