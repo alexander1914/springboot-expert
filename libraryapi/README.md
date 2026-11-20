@@ -63,9 +63,6 @@ All JPA-specific cascade operations are represented by the jakarta.persistence.C
 **@Transient**: is annotation when saving to a database. However,
 the @Transient annotation does not affect Java object serialization.
 
-**@Transactional**: Let’s focus on a straightforward operation sequence such as retrieving a draft article,
-updating it, and saving the changes — all performed within a single database transaction.
-
 **@ManyToOne**: is annotation lets us create bidirectional relationships too.
 We’ll cover this in detail in the next few subsections.
 
@@ -131,4 +128,49 @@ void deletePorGenero(GeneroLivro generoLivro);
 @Transactional
 @Query("update Livro set dataPublicacao = ?1")
 void updateDataPublicao(LocalDate novaData);
+```
+## Transactional on JPA
+**@Transactional**: Let’s focus on a straightforward operation sequence such as retrieving a draft article,
+updating it, and saving the changes — all performed within a single database transaction.
+```java
+/// insert on database
+@Transactional
+    public void executar(){
+        /// First step to salve autor
+        Autor autor = new Autor();
+        autor.setNome("Nathalia");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(1997, 12, 22));
+
+        autorRepository.save(autor);
+
+        /// Second step to salve livro
+        Livro livro = new Livro();
+        livro.setIsbn("01010-11111");
+        livro.setPreco(BigDecimal.valueOf(500));
+        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setTitulo("Mágico de Oz");
+        livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
+
+        livro.setAutor(autor);
+
+        livroRepository.save(livro);
+
+        if (autor.getNome().equals("Nathalia")){
+            throw new RuntimeException("Rollback");
+        }
+    }
+    
+/// update on database
+/// when you have a transaction open didn't necessary to save entity on JPA 
+/// Status managed
+@Transactional
+public void atualizarSemAtualizar() {
+
+    Livro livro = livroRepository
+            .findById(UUID.fromString("8f10396d-06b7-48dd-9386-2b6bb3e17076"))
+            .orElse(null);
+
+    livro.setDataPublicacao(LocalDate.of(2026,12,24));
+}
 ```
