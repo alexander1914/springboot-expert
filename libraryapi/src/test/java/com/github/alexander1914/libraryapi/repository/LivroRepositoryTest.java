@@ -162,13 +162,13 @@ class LivroRepositoryTest {
     }
 
     @Test
-    void deletarPorGeneroTest(){
+    void deletarPorGeneroTest() {
         livroRepository.deletePorGenero(GeneroLivro.FICCAO);
     }
 
     @Test
-    void updateDataPublicacaoTest(){
-        livroRepository.updateDataPublicao(LocalDate.of(2027, 1,1));
+    void updateDataPublicacaoTest() {
+        livroRepository.updateDataPublicao(LocalDate.of(2027, 1, 1));
     }
 
 }

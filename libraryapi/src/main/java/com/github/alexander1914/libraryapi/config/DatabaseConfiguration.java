@@ -22,7 +22,7 @@ public class DatabaseConfiguration {
     String driver;
 
     //@Bean
-    public DataSource databaseConfiguration(){
+    public DataSource databaseConfiguration() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl(url);
         dataSource.setUsername(username);
@@ -32,7 +32,7 @@ public class DatabaseConfiguration {
     }
 
     //@Bean
-    public DataSource hikariDataSource(){
+    public DataSource hikariDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(url);
         hikariConfig.setUsername(username);

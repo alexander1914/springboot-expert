@@ -17,7 +17,7 @@ public class TransacaoTest {
     }
 
     @Test
-    void transancaoEstadoManaged(){
+    void transancaoEstadoManaged() {
         transacaoService.atualizarSemAtualizar();
     }
 
