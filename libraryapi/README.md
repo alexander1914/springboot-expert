@@ -113,9 +113,11 @@ List<Livro> findByGeneroParametroPosicianal(
         @Param("paramOrderby") String orderBy
 );
 ```
+
 **@Modifying:** is annotation used for database queries that alter data or schema.
 
 **@Transactional**  is an annotation that defines a transaction boundary around a method or class.
+
 ```java
 /// delete with @Query
 @Modifying
@@ -129,38 +131,41 @@ void deletePorGenero(GeneroLivro generoLivro);
 @Query("update Livro set dataPublicacao = ?1")
 void updateDataPublicao(LocalDate novaData);
 ```
+
 ## Transactional on JPA
+
 **@Transactional**: Let’s focus on a straightforward operation sequence such as retrieving a draft article,
 updating it, and saving the changes — all performed within a single database transaction.
+
 ```java
 /// insert on database
 @Transactional
-    public void executar(){
-        /// First step to salve autor
-        Autor autor = new Autor();
-        autor.setNome("Nathalia");
-        autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1997, 12, 22));
+public void executar() {
+    /// First step to salve autor
+    Autor autor = new Autor();
+    autor.setNome("Nathalia");
+    autor.setNacionalidade("Brasileira");
+    autor.setDataNascimento(LocalDate.of(1997, 12, 22));
 
-        autorRepository.save(autor);
+    autorRepository.save(autor);
 
-        /// Second step to salve livro
-        Livro livro = new Livro();
-        livro.setIsbn("01010-11111");
-        livro.setPreco(BigDecimal.valueOf(500));
-        livro.setGenero(GeneroLivro.FANTASIA);
-        livro.setTitulo("Mágico de Oz");
-        livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
+    /// Second step to salve livro
+    Livro livro = new Livro();
+    livro.setIsbn("01010-11111");
+    livro.setPreco(BigDecimal.valueOf(500));
+    livro.setGenero(GeneroLivro.FANTASIA);
+    livro.setTitulo("Mágico de Oz");
+    livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
 
-        livro.setAutor(autor);
+    livro.setAutor(autor);
 
-        livroRepository.save(livro);
+    livroRepository.save(livro);
 
-        if (autor.getNome().equals("Nathalia")){
-            throw new RuntimeException("Rollback");
-        }
+    if (autor.getNome().equals("Nathalia")) {
+        throw new RuntimeException("Rollback");
     }
-    
+}
+
 /// update on database
 /// when you have a transaction open didn't necessary to save entity on JPA 
 /// Status managed
@@ -171,6 +176,26 @@ public void atualizarSemAtualizar() {
             .findById(UUID.fromString("8f10396d-06b7-48dd-9386-2b6bb3e17076"))
             .orElse(null);
 
-    livro.setDataPublicacao(LocalDate.of(2026,12,24));
+    livro.setDataPublicacao(LocalDate.of(2026, 12, 24));
 }
 ```
+
+### RESTFul
+
+is an acronym for Representational State Transfer and an architectural style (a named set of constraints) for
+distributed hypermedia systems (a system of linked documents spread over a network).
+Roy Fielding first presented it in 2000 in his famous dissertation.
+Since then, it has become one of the most widely used approaches for building web-based APIs (Application Programming
+Interfaces).
+
+**@RestController:** is annotation in order to simplify the creation of RESTful web services. It’s a convenient
+annotation that combines **@Controller** and **@ResponseBody**, which eliminates the need to annotate every request
+handling method of the controller
+class with the **@ResponseBody** annotation.
+
+**@RequestMapping:** is annotation to map requests to controllers methods. It has various attributes to match by URL,
+HTTP method, request parameters, headers, and media types. You can use it at the class level to express shared mappings
+or at the method level to narrow down to a specific endpoint mapping.
+
+**@PostMapping:** are annotations used to handle HTTP requests in Spring MVC controllers.
+They help map specific HTTP methods to controller methods when building REST APIs
