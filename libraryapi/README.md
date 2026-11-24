@@ -28,21 +28,27 @@
 
 ``` sql
     CREATE TABLE autor(
-    id uuid not null primary key,
-    nome varchar(100) not null,
-    data_nascimento date not null,
-    nacionalidade varchar(50) not null
+        id uuid not null primary key,
+        nome varchar(100) not null,
+        data_nascimento date not null,
+        nacionalidade varchar(50) not null,
+        data_cadastro timestamp,
+        data_atualizacao timestamp,
+        id_usuario uuid
     );
     
     CREATE TABLE livro(
-    id uuid not null primary key,
-    isbn varchar (20) not null,
-    titulo varchar(150) not null,
-    data_publicacao date not null,
-    genero varchar(30) not null,
-    preco numeric(18,2),
-    id_autor uuid not null references autor(id),
-    CONSTRAINT chk_genero check (genero in ('FICCAO', 'FANTASIA', 'MISTERIO', 'ROMANCE', 'BIOGRAFIA', 'CIENCIA'))
+        id uuid not null primary key,
+        isbn varchar (20) not null,
+        titulo varchar(150) not null,
+        data_publicacao date not null,
+        genero varchar(30) not null,
+        preco numeric(18,2),
+        data_cadastro timestamp,
+        data_atualizacao timestamp,
+        id_usuario uuid
+        id_autor uuid not null references autor(id),
+        CONSTRAINT chk_genero check (genero in ('FICCAO', 'FANTASIA', 'MISTERIO', 'ROMANCE', 'BIOGRAFIA', 'CIENCIA'))
     );
 ```
 
@@ -180,6 +186,19 @@ public void atualizarSemAtualizar() {
 }
 ```
 
+**@CreatedDate:** is an annotation (org.springframework.data.annotation.CreatedDate) that marks a field or
+method to record the date and time when an entity is created.
+
+**@LastModifiedDate:** is an annotation (org.springframework.data.annotation.LastModifiedDate), @LastModifiedDate is an
+auditing annotation
+that marks a field or method to store the timestamp of when an entity was most recently modified.
+
+**@EntityListeners:** is an annotation that specifies external listener classes to run callback methods during entity
+lifecycle events.
+
+**@EnableJpaAuditing:** is an annotation that activates automatic tracking of entity creation and modification metadata
+(timestamps and user principals).
+
 ### RESTFul
 
 is an acronym for Representational State Transfer and an architectural style (a named set of constraints) for
@@ -198,4 +217,4 @@ HTTP method, request parameters, headers, and media types. You can use it at the
 or at the method level to narrow down to a specific endpoint mapping.
 
 **@PostMapping:** are annotations used to handle HTTP requests in Spring MVC controllers.
-They help map specific HTTP methods to controller methods when building REST APIs
+They help map specific HTTP methods to controller methods when building REST APIs.
