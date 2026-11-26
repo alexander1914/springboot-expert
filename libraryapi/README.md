@@ -90,12 +90,12 @@ This frees the domain class from persistence specific information and co-locates
 
 ``` java
 @Query("""
-select l.genero
-from Livro l
-join l.autor a
-where a.nacionalidade = 'Brasileira'
-order by l.genero
-""")
+        select l.genero
+        from Livro l
+        join l.autor a
+        where a.nacionalidade = 'Brasileira'
+        order by l.genero
+        """)
 List<String> listarGenerosAutoresBrasileiros();
 ```
 
@@ -219,8 +219,14 @@ or at the method level to narrow down to a specific endpoint mapping.
 **@PostMapping:** are annotations used to handle HTTP requests in Spring MVC controllers.
 They help map specific HTTP methods to controller methods when building REST APIs.
 
-**@GetMapping:** is an annotation that maps HTTP GET requests to specific controller handler methods. It acts as a shortcut for **@RequestMapping(method = RequestMethod.GET)**
+**@GetMapping:** is an annotation that maps HTTP GET requests to specific controller handler methods. It acts as a
+shortcut for **@RequestMapping(method = RequestMethod.GET)**
 
-**@PathVariable:** is an annotation used to extract dynamic values from URI template placeholders (enclosed in {}) in a request URL and bind them to controller method parameters.
+**@PathVariable:** is an annotation used to extract dynamic values from URI template placeholders (enclosed in {}) in a
+request URL and bind them to controller method parameters.
 
-**@Deletemapping:** is an annotation that maps HTTP DELETE requests onto controller handler methods, acting as a shortcut for **@RequestMapping(method = RequestMethod.DELETE)**
+**@Deletemapping:** is an annotation that maps HTTP DELETE requests onto controller handler methods, acting as a
+shortcut for **@RequestMapping(method = RequestMethod.DELETE)**
+
+**@RequestParam:** is an annotation that binds HTTP request parameters—such as query string parameters (?key=value) or
+form data—to controller method arguments.
