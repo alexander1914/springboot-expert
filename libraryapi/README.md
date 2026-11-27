@@ -230,3 +230,10 @@ shortcut for **@RequestMapping(method = RequestMethod.DELETE)**
 
 **@RequestParam:** is an annotation that binds HTTP request parameters—such as query string parameters (?key=value) or
 form data—to controller method arguments.
+
+**@PutMapping:** is an annotation that maps HTTP PUT requests onto specific controller handler methods, acting as a
+shortcut for **@RequestMapping(method = RequestMethod.PUT)**
+
+**@RequestBody:** is an annotation that reads the incoming HTTP request body and deserializes it
+into a target object (commonly JSON or XML to a Java/Kotlin object) using an HttpMessageConverter or HttpMessageReader.
+See the official Spring Framework documentation for more detail.
